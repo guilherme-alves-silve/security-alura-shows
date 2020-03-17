@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.alura.owasp.dao.UsuarioDao;
+import br.com.alura.owasp.dto.UsuarioDTO;
 import br.com.alura.owasp.model.Role;
 import br.com.alura.owasp.model.Usuario;
 import br.com.alura.owasp.retrofit.google.GoogleRecaptchaWebClient;
@@ -47,10 +48,11 @@ public class UsuarioController {
 	}
 
 	@RequestMapping(value = "/registrar", method = RequestMethod.POST)
-	public String registrar(MultipartFile imagem, @ModelAttribute("usuarioRegistro") Usuario usuarioRegistro,
+	public String registrar(MultipartFile imagem, @ModelAttribute("usuarioRegistro") UsuarioDTO usuario,
 			RedirectAttributes redirect, HttpServletRequest request, Model model, HttpSession session)
 			throws IllegalStateException, IOException {
 
+		Usuario usuarioRegistro = usuario.montaUsuario();
 		tratarImagem(imagem, usuarioRegistro, request);
 		usuarioRegistro.getRoles().add(new Role("ROLE_USER"));
 

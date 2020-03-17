@@ -21,8 +21,17 @@ public class Usuario implements Serializable {
 	private String nomeImagem;
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Role> roles = new ArrayList<>();
-	
-	public Usuario(){}
+
+	public Usuario() {
+
+	}
+
+	public Usuario(String email, String senha, String nome, String nomeImagem) {
+		this.email = email;
+		this.senha = senha;
+		this.nome = nome;
+		this.nomeImagem = nomeImagem;
+	}
 
 	public String getEmail() {
 		return email;
