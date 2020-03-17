@@ -19,13 +19,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.alura.owasp.dao.UsuarioDao;
 import br.com.alura.owasp.model.Role;
 import br.com.alura.owasp.model.Usuario;
+import br.com.alura.owasp.retrofit.google.GoogleRecaptchaWebClient;
 
 @Controller
 @Transactional
 public class UsuarioController {
 
+	private final UsuarioDao dao;
+	private final GoogleRecaptchaWebClient googleRecaptchaWebClient;
+	
 	@Autowired
-	private UsuarioDao dao;
+	public UsuarioController(UsuarioDao dao, GoogleRecaptchaWebClient googleWebClient) {
+		this.dao = dao;
+		this.googleRecaptchaWebClient = googleWebClient;
+	}
 
 	@RequestMapping("/usuario")
 	public String usuario(Model model) {
@@ -40,10 +47,9 @@ public class UsuarioController {
 	}
 
 	@RequestMapping(value = "/registrar", method = RequestMethod.POST)
-	public String registrar(MultipartFile imagem,
-			@ModelAttribute("usuarioRegistro") Usuario usuarioRegistro,
-			RedirectAttributes redirect, HttpServletRequest request,
-			Model model, HttpSession session) throws IllegalStateException, IOException {
+	public String registrar(MultipartFile imagem, @ModelAttribute("usuarioRegistro") Usuario usuarioRegistro,
+			RedirectAttributes redirect, HttpServletRequest request, Model model, HttpSession session)
+			throws IllegalStateException, IOException {
 
 		tratarImagem(imagem, usuarioRegistro, request);
 		usuarioRegistro.getRoles().add(new Role("ROLE_USER"));
@@ -54,10 +60,21 @@ public class UsuarioController {
 		return "usuarioLogado";
 	}
 
-	@RequestMapping("/login")
-	public String login(@ModelAttribute("usuario") Usuario usuario,
-			RedirectAttributes redirect, Model model, HttpSession session) {
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@ModelAttribute("usuario") Usuario usuario, RedirectAttributes redirect, Model model,
+			HttpSession session, HttpServletRequest request) throws IOException {
 
+		String recaptcha = request.getParameter("g-recaptcha-response");
+		if (googleRecaptchaWebClient.verifica(recaptcha)) {
+			return procuraUsuario(usuario, redirect, model, session);
+		}
+		
+		redirect.addFlashAttribute("mensagem", "Por favor, confirme que você é humano!");
+
+		return "redirect:/usuario";
+	}
+
+	private String procuraUsuario(Usuario usuario, RedirectAttributes redirect, Model model, HttpSession session) {
 		Usuario usuarioRetornado = dao.procuraUsuario(usuario);
 		model.addAttribute("usuario", usuarioRetornado);
 		if (usuarioRetornado == null) {
@@ -67,7 +84,6 @@ public class UsuarioController {
 
 		session.setAttribute("usuario", usuarioRetornado);
 		return "usuarioLogado";
-
 	}
 
 	@RequestMapping("/logout")
@@ -76,11 +92,10 @@ public class UsuarioController {
 		return "usuario";
 	}
 
-	private void tratarImagem(MultipartFile imagem, Usuario usuario,
-			HttpServletRequest request) throws IllegalStateException, IOException {
+	private void tratarImagem(MultipartFile imagem, Usuario usuario, HttpServletRequest request)
+			throws IllegalStateException, IOException {
 		usuario.setNomeImagem(imagem.getOriginalFilename());
-		File arquivo = new File(request.getServletContext().getRealPath(
-				"/image"), usuario.getNomeImagem());
+		File arquivo = new File(request.getServletContext().getRealPath("/image"), usuario.getNomeImagem());
 		imagem.transferTo(arquivo);
 
 	}
