@@ -1,4 +1,26 @@
-# Projeto Alura Shows!
+# Projeto Security Alura Shows!
+
+## Sobre
+
+Este projeto é um estudo de como se defender de ataques em aplicações, tendo o foco a linguagem Java.
+
+Os cursos estudados do Alura são:
+
+* [Segurança web em Java: Evitando SQL Injection, força bruta e outros ataques](https://www.alura.com.br/curso-online-seguranca-web-em-java-parte-1)
+* [Segurança web em Java parte 2: XSS, Mass Assignment e Uploads de arquivos!](https://www.alura.com.br/curso-online-seguranca-web-em-java-parte-2)
+
+## Exemplos de ataques:
+
+### Na pasta src/main/resources possue os seguintes exemplos:
+
+* Para upload de arquivos: imagemfalsa.jpg e imagemfalsa.jsp
+* Para Mass Assignment: mass_assignment_exemplo.html
+* Para XSS: xss_script_exemplo.js
+
+### O [Kali Linux](https://www.kali.org/) foi utilizado para testar os outros cenários
+
+* sqlmap: SQL Injection
+* Burp Suite: Força bruta
 
 ## Execute o banco utilizando docker:
 
