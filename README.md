@@ -56,3 +56,7 @@ docker exec -it mysql_alura_shows mysql -uroot -padmin
 * Tratando conteúdo para evitar XSS
 * Utilizando DTO para evitar Mass Assignment
 * Evitando ataque do lado do servidor validando upload de arquivos
+
+### Observações
+
+Projeto utilizado somente para estudos, testado somente em ambiente local utilizando máquina virtual
