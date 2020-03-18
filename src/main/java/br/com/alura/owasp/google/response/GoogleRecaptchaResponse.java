@@ -1,4 +1,4 @@
-package br.com.alura.owasp.retrofit.google.response;
+package br.com.alura.owasp.google.response;
 
 public class GoogleRecaptchaResponse {
 

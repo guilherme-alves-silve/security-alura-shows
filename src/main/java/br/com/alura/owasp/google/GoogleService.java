@@ -1,6 +1,6 @@
-package br.com.alura.owasp.retrofit.google;
+package br.com.alura.owasp.google;
 
-import br.com.alura.owasp.retrofit.google.response.GoogleRecaptchaResponse;
+import br.com.alura.owasp.google.response.GoogleRecaptchaResponse;
 import retrofit2.Call;
 import retrofit2.http.POST;
 import retrofit2.http.Query;

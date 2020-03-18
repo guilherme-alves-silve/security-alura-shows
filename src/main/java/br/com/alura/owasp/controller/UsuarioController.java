@@ -19,9 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.alura.owasp.dao.UsuarioDao;
 import br.com.alura.owasp.dto.UsuarioDTO;
+import br.com.alura.owasp.google.GoogleRecaptchaWebClient;
 import br.com.alura.owasp.model.Role;
 import br.com.alura.owasp.model.Usuario;
-import br.com.alura.owasp.retrofit.google.GoogleRecaptchaWebClient;
 import br.com.alura.owasp.util.ImagemUtil;
 import br.com.alura.owasp.validator.ImagemValidator;
 

@@ -1,9 +1,9 @@
-package br.com.alura.owasp.retrofit;
+package br.com.alura.owasp.infra;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import br.com.alura.owasp.retrofit.google.GoogleService;
+import br.com.alura.owasp.google.GoogleService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
@@ -11,12 +11,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Configuration
-public class RetrofitConfig {
+public class RetrofitConfiguration {
 
 	private static final String BASE_URL = "https://www.google.com/recaptcha/api/";
 	private final Retrofit retrofit;
 	
-	public RetrofitConfig() {
+	public RetrofitConfiguration() {
 		HttpLoggingInterceptor bodyInterceptor = new HttpLoggingInterceptor();
 		bodyInterceptor.setLevel(Level.BODY);
 		retrofit = new Retrofit.Builder()

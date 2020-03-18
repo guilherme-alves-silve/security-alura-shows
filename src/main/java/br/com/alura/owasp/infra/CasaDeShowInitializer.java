@@ -2,7 +2,7 @@ package br.com.alura.owasp.infra;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class CasaDeShowInitializer extends AbstractAnnotationConfigDispatcherServletInitializer{
+public class CasaDeShowInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
@@ -19,6 +19,4 @@ public class CasaDeShowInitializer extends AbstractAnnotationConfigDispatcherSer
 	protected String[] getServletMappings() {
 		return new String[] { "/" };
 	}
-	
-
 }

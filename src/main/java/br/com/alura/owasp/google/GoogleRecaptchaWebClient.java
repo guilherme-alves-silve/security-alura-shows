@@ -1,11 +1,11 @@
-package br.com.alura.owasp.retrofit.google;
+package br.com.alura.owasp.google;
 
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.alura.owasp.retrofit.google.response.GoogleRecaptchaResponse;
+import br.com.alura.owasp.google.response.GoogleRecaptchaResponse;
 import retrofit2.Call;
 
 @Component
