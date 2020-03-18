@@ -4,19 +4,26 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import br.com.alura.owasp.model.Usuario;
+import br.com.alura.owasp.util.VerificadorHash;
 
 @Repository
 public class UsuarioDaoImpl implements UsuarioDao {
 
 	@PersistenceContext
 	private EntityManager manager;
+	private final VerificadorHash verificadorHash;
+	
+	@Autowired
+	public UsuarioDaoImpl(VerificadorHash verificadorHash) {
+		this.verificadorHash = verificadorHash;
+	}
 
 	public void salva(Usuario usuario) {
-		transformaSenhaDoUsuarioEmHash(usuario);
+		verificadorHash.transformaSenhaDoUsuarioEmHash(usuario);
 		manager.persist(usuario);
 	}
 
@@ -29,24 +36,10 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				.findFirst()
 				.orElse(null);
 		
-		if (validaSenhaDoUsuario(usuario, usuarioRetornado)) {
+		if (verificadorHash.validaSenhaDoUsuarioComOHAshDoBanco(usuario, usuarioRetornado)) {
 			return usuarioRetornado;
 		}
 		
 		return null;
-	}
-	
-	private void transformaSenhaDoUsuarioEmHash(Usuario usuario) {
-		String salt = BCrypt.gensalt();
-		String senhaHash = BCrypt.hashpw(usuario.getSenha(), salt);
-		usuario.setSenha(senhaHash);
-	}
-	
-	private boolean validaSenhaDoUsuario(Usuario usuario, Usuario usuarioRetornado) {
-		if (null == usuarioRetornado) {
-			return false;
-		}
-		
-		return BCrypt.checkpw(usuario.getSenha(), usuarioRetornado.getSenha());
 	}
 }

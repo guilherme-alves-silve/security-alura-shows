@@ -22,7 +22,7 @@ public class DepoimentoDaoImpl implements DepoimentoDao {
 
 	@Override
 	public List<Depoimento> buscaMensagens() {
-		return manager.createQuery("select d from Depoimento d", Depoimento.class)
+		return manager.createQuery("SELECT d FROM Depoimento d", Depoimento.class)
 				.getResultList();
 	}
 
